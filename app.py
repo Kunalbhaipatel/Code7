@@ -25,11 +25,11 @@ util_threshold = st.sidebar.slider("Set Utilization Alert Threshold (%)", min_va
 # Visual Icons/Images
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.image("/mnt/data/OIP__1_-removebg-preview-removebg-preview.png", caption="Drilling Rig", use_container_width=True)
+    st.image("OIP__1_-removebg-preview-removebg-preview.png", caption="Drilling Rig", use_container_width=True)
 with col2:
-    st.image("/mnt/data/HyperPool_silo_800X600-1.png.png", caption="Shaker Screen", use_column_width=True)
+    st.image("HyperPool_silo_800X600-1.png.png", caption="Shaker Screen", use_container_width=True)
 with col3:
-    st.image("/mnt/data/Hyperpool_SideView_Compression1_LR-removebg-preview (1).png", caption="Shaker Unit", use_column_width=True)
+    st.image("Hyperpool_SideView_Compression1_LR-removebg-preview (1).png", caption="Shaker Unit", use_container_width=True)
 
 # File uploader
 uploaded_file = st.file_uploader("Upload Shaker CSV Data", type=["csv"])
