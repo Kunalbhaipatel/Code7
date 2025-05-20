@@ -6,11 +6,31 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="Shaker Health Dashboard", layout="wide")
 st.markdown("""
     <style>
-        .main {background-color: #f9f9f9; padding: 20px;}
-        .css-18e3th9 {padding: 1rem;}
-        h1, h2, h3, h4 {color: #2E86AB;}
-        .stMetric {background-color: #ffffff; border: 1px solid #ddd; border-radius: 5px; padding: 10px;}
-    </style>
+    .main {
+        background-color: #f4f6fa;
+        padding: 20px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .css-18e3th9 {
+        padding: 1rem;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2, h3, h4 {
+        color: #1565C0;
+    }
+    .stMetric {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .block-container {
+        padding-top: 2rem;
+    }
+</style>
 """, unsafe_allow_html=True)
 
 
@@ -23,7 +43,7 @@ SCREEN_MESH_CAPACITY = {
     "API 200": 120
 }
 
-st.sidebar.image("d55f32bc-f979-45e0-a275-c015e2230fcd.png", width=200)
+st.sidebar.image("2a3e237e-686e-40a6-8b0a-0a11b9344099.png", width=200)
 df_mesh_type = st.sidebar.selectbox("Select Screen Mesh Type", list(SCREEN_MESH_CAPACITY.keys()))
 mesh_capacity = SCREEN_MESH_CAPACITY[df_mesh_type]
 util_threshold = st.sidebar.slider("Utilization Threshold (%)", 50, 100, 80)
