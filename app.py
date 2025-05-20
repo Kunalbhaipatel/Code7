@@ -25,7 +25,7 @@ util_threshold = st.sidebar.slider("Set Utilization Alert Threshold (%)", min_va
 # Visual Icons/Images
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.image("/mnt/data/OIP__1_-removebg-preview-removebg-preview.png", caption="Drilling Rig", use_column_width=True)
+    st.image("/mnt/data/OIP__1_-removebg-preview-removebg-preview.png", caption="Drilling Rig", use_container_width=True)
 with col2:
     st.image("/mnt/data/HyperPool_silo_800X600-1.png.png", caption="Shaker Screen", use_column_width=True)
 with col3:
