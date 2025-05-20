@@ -23,60 +23,11 @@ mesh_capacity = SCREEN_MESH_CAPACITY[df_mesh_type]
 util_threshold = st.sidebar.slider("Set Utilization Alert Threshold (%)", min_value=50, max_value=100, value=80, step=1)
 
 # Visual Icons/Images
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 with col1:
-    st.image("OIP__1_-removebg-preview-removebg-preview.png", caption="Drilling Rig", use_container_width=True)
-with col2:
     st.image("HyperPool_silo_800X600-1.png.png", caption="Shaker Screen", use_container_width=True)
-with col3:
+with col2:
     st.image("Hyperpool_SideView_Compression1_LR-removebg-preview (1).png", caption="Shaker Unit", use_container_width=True)
-
-# File uploader
-uploaded_file = st.file_uploader("Upload Shaker CSV Data", type=["csv"])
-
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-
-    required_cols = [
-        'YYYY/MM/DD', 'HH:MM:SS', 'Hole Depth (feet)', 'Bit Depth (feet)', 'Hook Load (klbs)',
-        'Total Mud Volume (barrels)', 'Weight on Bit (klbs)', 'SHAKER #1 (Units)', 'Tool Face (degrees)',
-        'SHAKER #2 (Units)', 'SHAKER #3 (PERCENT)', 'Heavy Ratio (percent)',
-        'PVT Monitor Mud Gain/Loss (barrels)', 'Total Mud Low Warning (barrels)',
-        'Flow Low Warning (flow_percent)', 'Flow High Warning (flow_percent)',
-        'Trip Mud High Warning (barrels)', 'MA_Temp (degF)', 'MA_Flow_Rate (gal/min)',
-        'Site Mud Volume (barrels)', 'Inactive Mud Volume (barrels)'
-    ]
-    df = df[required_cols]
-
-    df['Timestamp'] = pd.to_datetime(df['YYYY/MM/DD'] + ' ' + df['HH:MM:SS'])
-    df = df.sort_values('Timestamp')
-    df['Date'] = df['Timestamp'].dt.date
-
-    tab1, tab2 = st.tabs(["📋 Summary", "📈 Charts"])
-
-    with tab1:
-        st.subheader("📊 Summary Insights")
-
-        df['Solids Volume Rate (gpm)'] = df['Weight on Bit (klbs)'] * df['MA_Flow_Rate (gal/min)'] / 100
-        df['Screen Utilization (%)'] = (df['Solids Volume Rate (gpm)'] / mesh_capacity) * 100
-        avg_util = df['Screen Utilization (%)'].mean()
-        st.metric("Average Screen Utilization", f"{avg_util:.2f}%")
-
-        df['ROP Proxy'] = df['Weight on Bit (klbs)'] * df['MA_Flow_Rate (gal/min)']
-        usage_factor = df['ROP Proxy'].mean() / 1000
-        est_life_used = usage_factor * 10
-        remaining_life = max(EXPECTED_SCREEN_LIFE_HRS - est_life_used, 0)
-        st.metric("Estimated Remaining Screen Life", f"{remaining_life:.1f} hrs")
-
-        drop_detected = ((df['SHAKER #3 (PERCENT)'].diff().abs() > 10) & (df['MA_Flow_Rate (gal/min)'].diff().abs() < 2)).any()
-        g_status = "🔴 DROP DETECTED!" if drop_detected else "🟢 Stable"
-        st.metric("Shaker G-Force Health", g_status)
-
-    with tab2:
-        st.subheader("📈 Interactive Time-Series Analytics")
-
-        fig1 = px.line(df, x='Timestamp', y='Screen Utilization (%)', title='Screen Utilization Over Time')
-        st.plotly_chart(fig1, use_container_width=True)
 
         fig2 = go.Figure()
         fig2.add_trace(go.Scatter(x=df['Timestamp'], y=df['SHAKER #1 (Units)'], mode='lines', name='SHAKER #1'))
