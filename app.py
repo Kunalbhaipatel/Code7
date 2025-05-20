@@ -13,6 +13,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+st.image("Prodigy_IQ_logo.png", width=250)
 st.title("🛠️ Real-Time Shaker Monitoring Dashboard")
 
 SCREEN_MESH_CAPACITY = {
@@ -96,6 +97,37 @@ if uploaded_file:
     with tab2:
         st.subheader("📄 Full Dataset")
         st.dataframe(df)
+
+    # ML-like advisory rules (advanced placeholder model)
+    st.subheader("🤖 Smart Advisory")
+    import joblib
+    from sklearn.ensemble import RandomForestClassifier
+
+    # Example logic - in practice, you'd load a trained model
+    try:
+        if {'Screen Utilization (%)', 'SHAKER #3 (PERCENT)', 'MA_Flow_Rate (gal/min)'}.issubset(df.columns):
+            sample = pd.DataFrame({
+                'util': [avg_util],
+                'shaker_peak': [shaker_max],
+                'flow': [avg_flow]
+            })
+            # Simulated rule-based ML decision
+            advisory = []
+            if sample['util'][0] > 85 and sample['shaker_peak'][0] > 95:
+                advisory.append("🚨 Model Insight: Likely overload - Recommend checking shaker alignment and replacing screens.")
+            elif sample['util'][0] > 75 and sample['flow'][0] > 600:
+                advisory.append("⚠️ High mud throughput - Monitor cuttings return and check screens for blinding.")
+            else:
+                advisory.append("✅ Model Insight: Conditions appear normal. Maintain standard checks.")
+
+            for msg in advisory:
+                st.info(msg)
+        else:
+            st.info("Not enough features available for ML advisory. Upload full dataset.")
+    except Exception as e:
+        st.error(f"ML advisory error: {e}")
+        for alert in alerts:
+            st.warning(alert)
 
 else:
     st.info("Please upload a valid CSV to begin analysis.")
