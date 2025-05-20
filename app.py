@@ -105,5 +105,12 @@ if uploaded_file:
         fig5 = px.box(df, x='Date', y='SHAKER #3 (PERCENT)', title='SHAKER #3 Outlier Distribution by Day')
         st.plotly_chart(fig5, use_container_width=True)
 
+        st.markdown("""
+        📋 **Explore the Daily Averages Table**  
+        This table shows daily average screen utilization, flow rate, and shaker output to help you spot high-load days, efficiency dips, or operational inconsistencies.
+        """)
+        if st.checkbox("Show Daily Average Data Table"):
+            st.dataframe(daily_avg)
+
 else:
     st.info("Please upload a valid CSV with required fields.")
